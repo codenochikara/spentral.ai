@@ -1,0 +1,43 @@
+/* 1. CSS Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+/* 2. Base typography */
+body {
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--bg);
+  color: var(--fg);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 3. Global elements */
+a {
+  color: var(--primary);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+button {
+  font-family: inherit;
+}
+
+input,
+button {
+  outline: none;
+}
+
+/* 4. Utility */
+.hidden {
+  display: none;
+}
