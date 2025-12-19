@@ -9,7 +9,6 @@ import createUsersTable from './data/operations/createUsersTable.js';
 import credentials from './middleware/credentials.js';
 import errorHandler from './middleware/errorHandler.js';
 import verifyJwt from './middleware/verifyJwt.js';
-// import usersRouter from './routes/api/usersRoutes.js';
 
 const app = express();
 const PORT = process.env.APP_PORT || 3000;
@@ -35,6 +34,7 @@ app.use(cookieParser()); // Middleware to parse cookies from the request headers
 app.use('/auth', (await import('./routes/authRouter.js')).default);
 app.use('/api/users', (await import('./routes/api/usersRouter.js')).default);
 app.use(verifyJwt); // JWT verification middleware for protected routes
+app.use('/api/dashboard', (await import('./routes/api/dashboardRouter.js')).default);
 app.use('/api/expenses', (await import('./routes/api/expensesRouter.js')).default);
 
 // Test PostgreSQL Connection Route

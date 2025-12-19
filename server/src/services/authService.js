@@ -20,7 +20,7 @@ export const processHandleLogin = async (identifier, password) => {
       userInfo: {
         username: user.username,
         email: user.email,
-        userId: user.user_id
+        userId: user.id
       }
     },
     process.env.JWT_ACCESS_TOKEN_SECRET,
@@ -28,7 +28,13 @@ export const processHandleLogin = async (identifier, password) => {
   );
 
   const refreshToken = jwt.sign(
-    { username: user.username },
+    {
+      userInfo: {
+        username: user.username,
+        email: user.email,
+        userId: user.id
+      }
+    },
     process.env.JWT_REFRESH_TOKEN_SECRET,
     { expiresIn: '1d' }
   );
@@ -62,7 +68,7 @@ export const processRefreshJwt = async (refreshToken) => {
     throw new ValidationError(null, 'Refresh token expired or invalid');
   }
 
-  if (decoded.username !== user.username) {
+  if (decoded.userInfo.username !== user.username) {
     throw new ValidationError(null, 'Token user mismatch');
   }
 
@@ -71,7 +77,7 @@ export const processRefreshJwt = async (refreshToken) => {
       userInfo: {
         username: user.username,
         email: user.email,
-        userId: user.user_id
+        userId: user.id
       }
     },
     process.env.JWT_ACCESS_TOKEN_SECRET,

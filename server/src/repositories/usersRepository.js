@@ -100,7 +100,7 @@ export const updateRefreshToken = async (username, refreshToken) => {
 
 export const getUserByRefreshToken = async (refreshToken) => {
   const query = `
-    SELECT username
+    SELECT username, email, id
     FROM users
     WHERE refresh_token = $1
     LIMIT 1

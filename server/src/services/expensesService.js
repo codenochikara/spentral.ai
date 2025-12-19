@@ -6,8 +6,8 @@ export const processCreateExpense = async (userId, amount, category, description
   return newExpense;
 };
 
-export const processGetExpensesByUserId = async (userId) => {
-  const expenses = await expensesRepository.getExpensesByUserId(userId);
+export const processGetExpensesByUserId = async (userId, limit) => {
+  const expenses = await expensesRepository.getExpensesByUserId(userId, limit);
   if (!expenses || expenses.length === 0) {
     throw new NotFoundError(null, "Expenses not found");
   }

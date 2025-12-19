@@ -2,7 +2,6 @@ import { loginUser } from "../../api/auth.api";
 import Button from "../../components/ui/Button";
 import { showToast } from "../../components/ui/Toast";
 import { navigate } from "../../router/router";
-import { setToken } from "../../store/auth.store";
 
 export default function Login() {
   const container = document.createElement("div");
@@ -113,7 +112,6 @@ export default function Login() {
 
     try {
       const res = await loginUser({ identifier, password });
-      setToken(res.data.data.accessToken);
       navigate("/dashboard");
     } catch (err) {
       showToast(err.response?.data?.message || "Login failed");

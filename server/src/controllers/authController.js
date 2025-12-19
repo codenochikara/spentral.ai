@@ -8,7 +8,14 @@ export const handleLogin = async (req, res, next) => {
 
     const { username, accessToken, refreshToken } = result;
 
-    res.cookie('jwt', refreshToken, {
+    res.cookie('accessToken', accessToken, {
+      httpOnly: true,
+      sameSite: 'None',
+      // secure: true,
+      maxAge: 5 * 60 * 1000
+    });
+
+    res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       sameSite: 'None',
       // secure: true,
@@ -16,7 +23,7 @@ export const handleLogin = async (req, res, next) => {
     });
 
     const responseData = {
-      accessToken
+      username
     };
 
     responseDTO(res, 200, `User ${username} is logged in.`, responseData);
@@ -27,15 +34,18 @@ export const handleLogin = async (req, res, next) => {
 
 export const refreshJwt = async (req, res, next) => {
   try {
-    const refreshToken = req.cookies?.jwt;
+    const refreshToken = req.cookies?.refreshToken;
 
-    const result = await processRefreshJwt(refreshToken);
+    const { username, accessToken } = await processRefreshJwt(refreshToken);
 
-    const responseData = {
-      accessToken: result.accessToken
-    }
+    res.cookie('accessToken', accessToken, {
+      httpOnly: true,
+      sameSite: 'None',
+      // secure: true,
+      maxAge: 5 * 60 * 1000
+    });
 
-    responseDTO(res, 200, `Access token re-generated for user ${result.username}.`, responseData);
+    responseDTO(res, 200, `Access token re-generated for user ${username}.`);
   } catch (err) {
     next(err);
   }
@@ -43,10 +53,10 @@ export const refreshJwt = async (req, res, next) => {
 
 export const handleLogout = async (req, res, next) => {
   try {
-    const refreshToken = req.cookies?.jwt;
+    const refreshToken = req.cookies?.refreshToken;
 
     // Always clear cookie (idempotent)
-    res.clearCookie('jwt', {
+    res.clearCookie('refreshToken', {
       httpOnly: true,
       sameSite: 'None',
       // secure: true

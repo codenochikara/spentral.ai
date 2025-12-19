@@ -13,10 +13,10 @@ const createExpense = async (req, res, next) => {
 };
 
 const getExpensesByUserId = async (req, res, next) => {
-  const { userId } = req.query;
+  const { userId, limit } = req.query;
 
   try {
-    const expenses = await processGetExpensesByUserId(userId);
+    const expenses = await processGetExpensesByUserId(userId, limit);
     res.status(200).json(responseDTO(res, 200, 'Expenses fetched successfully.', expenses));
   } catch (error) {
     next(error);

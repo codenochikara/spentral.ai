@@ -13,11 +13,17 @@ export const createExpense = async (userId, amount, category, description, notes
   }
 };
 
-export const getExpensesByUserId = async (userId) => {
+export const getExpensesByUserId = async (userId, limit = 10) => {
   try {
     const result = await pool.query(
-      "SELECT * FROM expenses WHERE user_id = $1",
-      [userId]
+      `
+      SELECT *
+      FROM expenses
+      WHERE user_id = $1
+      ORDER BY created_at DESC
+      LIMIT $2
+      `,
+      [userId, limit]
     );
     return result.rows;
   } catch (error) {

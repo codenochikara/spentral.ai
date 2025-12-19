@@ -1,10 +1,12 @@
 import Login from "../pages/auth/Login";
 import Signup from "../pages/auth/Signup";
+import Dashboard from "../pages/dashboard/Dashboard";
 
 const routes = {
   "/": Login,
   "/login": Login,
   "/signup": Signup,
+  "/dashboard": Dashboard
 };
 
 export function initRouter() {
