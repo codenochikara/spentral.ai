@@ -2,10 +2,11 @@ import { processCreateExpense, processDeleteExpenseById, processGetExpensesByUse
 import responseDTO from "../utils/responseDTO.js";
 
 const createExpense = async (req, res, next) => {
-  const { user_id, amount, category, description, notes } = req.body;
+  const { amount, category, description, notes } = req.body;
+  const userId = req.user.userId;
 
   try {
-    const expense = await processCreateExpense(user_id, amount, category, description, notes);
+    const expense = await processCreateExpense(userId, amount, category, description, notes);
     res.status(201).json(responseDTO(res, 201, 'Expense created successfully.', expense));
   } catch (error) {
     next(error);
@@ -13,7 +14,8 @@ const createExpense = async (req, res, next) => {
 };
 
 const getExpensesByUserId = async (req, res, next) => {
-  const { userId, limit } = req.query;
+  const { limit } = req.query || 10;
+  const userId = req.user.userId;
 
   try {
     const expenses = await processGetExpensesByUserId(userId, limit);

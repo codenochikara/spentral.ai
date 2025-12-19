@@ -15,8 +15,7 @@ export const validateUser = (req, res, next) => {
   next();
 };
 
-const expenseCreateSchema = Joi.object({
-  user_id: Joi.string().required(),
+const createExpenseSchema = Joi.object({
   amount: Joi.number().positive().min(0.01).required(),
   category: Joi.string().valid('food', 'transport', 'entertainment', 'health', 'shopping', 'bills', 'autopay', 'other').required(),
   description: Joi.string().trim().max(255),
@@ -25,14 +24,14 @@ const expenseCreateSchema = Joi.object({
 });
 
 export const validateCreateExpense = (req, res, next) => {
-  const { error } = expenseCreateSchema.validate(req.body);
+  const { error } = createExpenseSchema.validate(req.body);
   if (error) {
     throw new ValidationError(error);
   }
   next();
 };
 
-const expenseUpdateSchema = Joi.object({
+const updateExpenseSchema = Joi.object({
   amount: Joi.number().positive().min(0.01),
   category: Joi.string().valid('food', 'transport', 'entertainment', 'health', 'shopping', 'bills', 'autopay', 'other'),
   description: Joi.string().trim().max(255),
@@ -41,7 +40,7 @@ const expenseUpdateSchema = Joi.object({
 }).min(1);
 
 export const validateUpdateExpense = (req, res, next) => {
-  const { error } = expenseUpdateSchema.validate(req.body);
+  const { error } = updateExpenseSchema.validate(req.body);
   if (error) {
     throw new ValidationError(error);
   }

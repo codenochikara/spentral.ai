@@ -1,12 +1,12 @@
 import api from './axios';
 
-export const fetchDashboardSummary = (userId) =>
-  api.get(`/dashboard/summary`, { params: { userId } });
+export const fetchDashboardSummary = () =>
+  api.get('api/dashboard/summary');
 
-export const fetchExpensesByCategory = (userId) =>
-  api.get(`/dashboard/expenses-by-category`, { params: { userId } });
+export const fetchExpensesByCategory = () =>
+  api.get('api/dashboard/expenses-by-category');
 
-export const fetchSpendingTrend = (userId, range = 'month') =>
-  api.get(`/dashboard/spending-trend`, {
-    params: { userId, range }
+export const fetchSpendingTrend = (range = 'month') =>
+  api.get('api/dashboard/spending-trend', {
+    params: { range }
   });

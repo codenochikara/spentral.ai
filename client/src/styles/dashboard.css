@@ -1,12 +1,12 @@
-/* Sidebar CSS */
-
+/* ================== SIDEBAR ================== */
 .sidebar {
   width: 240px;
   background: var(--card-bg);
   border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
-  transition: width 0.3s ease;
+  transition: width 0.3s ease, background 0.3s ease;
+  box-shadow: var(--shadow-sm);
 }
 
 .sidebar.collapsed {
@@ -16,6 +16,7 @@
 .sidebar-header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 1rem;
   font-weight: 600;
 }
@@ -31,10 +32,12 @@
   padding: 0.6rem 0.75rem;
   border-radius: var(--radius-md);
   cursor: pointer;
+  color: var(--fg);
+  transition: var(--transition);
 }
 
 .sidebar-nav a:hover {
-  background: var(--bg-hover);
+  background: var(--muted-bg);
 }
 
 .sidebar-footer {
@@ -42,8 +45,7 @@
   padding: 1rem;
 }
 
-/* Dashboard CSS */
-
+/* ================== DASHBOARD LAYOUT ================== */
 .dashboard-page {
   display: flex;
   min-height: 100vh;
@@ -54,6 +56,7 @@
   flex: 1;
   padding: 1.5rem;
   overflow-y: auto;
+  transition: var(--transition);
 }
 
 .dashboard-grid {
@@ -63,40 +66,73 @@
   gap: 1rem;
 }
 
-/* Dashboard components CSS */
-
+/* ================== STAT CARDS ================== */
 .stat-card {
   grid-column: span 4;
-  padding: 1.25rem;
+  padding: 1.5rem;
+  border-radius: var(--radius-md);
+  background: var(--card-bg);
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
 }
 
 .stat-title {
-  color: var(--fg-muted);
+  color: var(--muted-text);
   font-size: 0.85rem;
+  font-weight: 500;
 }
 
 .stat-value {
   font-size: 1.6rem;
+  font-weight: 600;
+  margin-top: 0.25rem;
+  color: var(--fg);
 }
 
+/* ================== CHARTS ================== */
 .chart-card {
   grid-column: span 6;
   padding: 1rem;
+  border-radius: var(--radius-md);
+  background: var(--card-bg);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition);
+}
+
+.chart-card h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--fg);
 }
 
 .chart-placeholder {
-  height: 220px;
+  flex: 1;
   border-radius: var(--radius-md);
-  background: linear-gradient(135deg,
-      var(--bg),
-      var(--card-bg));
+  background: linear-gradient(135deg, var(--muted-bg), var(--card-bg));
   opacity: 0.7;
+  transition: var(--transition);
 }
 
+/* ================== TRANSACTIONS ================== */
 .transactions {
   grid-column: span 6;
   max-height: 280px;
   overflow-y: auto;
+  border-radius: var(--radius-md);
+  background: var(--card-bg);
+  box-shadow: var(--shadow-md);
+  padding: 1rem;
+  transition: var(--transition);
+}
+
+.transactions h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--fg);
 }
 
 .transactions ul {
@@ -104,4 +140,94 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+}
+
+.transactions li {
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+  background: var(--muted-bg);
+  transition: background 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.transactions li:hover {
+  background: var(--bg-hover);
+}
+
+/* ================== RESPONSIVE ================== */
+@media (max-width: 1024px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  .stat-card {
+    grid-column: span 6;
+  }
+
+  .chart-card {
+    grid-column: span 6;
+  }
+
+  .transactions {
+    grid-column: span 6;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-page {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sidebar.collapsed {
+    width: 100%;
+  }
+
+  .dashboard-main {
+    padding: 1rem;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .stat-card,
+  .chart-card,
+  .transactions {
+    grid-column: span 1;
+  }
+}
+
+/* Skeletons for loading state */
+.skeleton {
+  /* background: linear-gradient(90deg, var(--muted-bg) 25%, var(--card-bg) 50%, var(--muted-bg) 75%); */
+  background: linear-gradient(90deg,
+      rgba(200, 200, 200, 0.25) 25%,
+      rgba(200, 200, 200, 0.5) 50%,
+      rgba(200, 200, 200, 0.25) 75%);
+  background-size: 200% 100%;
+  border-radius: var(--radius-md);
+  animation: skeletonShimmer 2s infinite linear;
+}
+
+.skeleton-text {
+  display: inline-block;
+}
+
+/* Skeleton shimmer animation */
+@keyframes skeletonShimmer {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
 }

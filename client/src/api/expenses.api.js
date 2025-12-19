@@ -1,4 +1,4 @@
 import api from './axios';
 
-export const fetchExpenses = (userId) =>
-  api.get('/expenses', { params: { userId } });
+export const fetchExpenses = () =>
+  api.get('api/expenses');

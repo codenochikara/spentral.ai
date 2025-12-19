@@ -10,14 +10,14 @@ export const handleLogin = async (req, res, next) => {
 
     res.cookie('accessToken', accessToken, {
       httpOnly: true,
-      sameSite: 'None',
+      sameSite: 'Lax',
       // secure: true,
       maxAge: 5 * 60 * 1000
     });
 
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
-      sameSite: 'None',
+      sameSite: 'Lax',
       // secure: true,
       maxAge: 24 * 60 * 60 * 1000
     });
@@ -40,7 +40,7 @@ export const refreshJwt = async (req, res, next) => {
 
     res.cookie('accessToken', accessToken, {
       httpOnly: true,
-      sameSite: 'None',
+      sameSite: 'Lax',
       // secure: true,
       maxAge: 5 * 60 * 1000
     });
@@ -58,7 +58,7 @@ export const handleLogout = async (req, res, next) => {
     // Always clear cookie (idempotent)
     res.clearCookie('refreshToken', {
       httpOnly: true,
-      sameSite: 'None',
+      sameSite: 'Lax',
       // secure: true
     });
 
