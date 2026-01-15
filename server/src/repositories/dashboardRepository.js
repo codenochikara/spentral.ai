@@ -3,26 +3,66 @@ import { DatabaseError } from '../utils/errors.js';
 
 export const getDashboardSummary = async (userId) => {
   try {
-    const result = await pool.query(
+    const { rows } = await pool.query(
       `
       SELECT
-        COALESCE(SUM(amount), 0) AS total_expenses,
-        COUNT(*) AS expense_count
-      FROM expenses
-      WHERE user_id = $1
+        COALESCE(
+          (SELECT SUM(amount) FROM incomes WHERE user_id = $1), 0
+        ) AS total_income,
+        COALESCE(
+          (SELECT SUM(amount) FROM expenses WHERE user_id = $1), 0
+        ) AS total_expenses,
+        (SELECT COUNT(*) FROM expenses WHERE user_id = $1) AS expense_count,
+        (SELECT COUNT(*) FROM incomes WHERE user_id = $1) AS income_count
       `,
       [userId]
     );
 
-    return result.rows[0];
+    return rows[0];
   } catch (error) {
     throw new DatabaseError(error, 'Error fetching dashboard summary');
   }
 };
 
+export const getRecentTransactions = async (userId, limit) => {
+  try {
+    const { rows } = await pool.query(
+      `
+      SELECT
+        id,
+        'expense' AS type,
+        amount,
+        category AS label,
+        created_at
+      FROM expenses
+      WHERE user_id = $1
+
+      UNION ALL
+
+      SELECT
+        id,
+        'income' AS type,
+        amount,
+        source AS label,
+        created_at
+      FROM incomes
+      WHERE user_id = $1
+
+      ORDER BY created_at DESC
+      LIMIT $2
+      `,
+      [userId, limit]
+    );
+
+    return rows;
+  } catch (error) {
+    throw new DatabaseError(error, 'Error fetching recent transactions');
+  }
+};
+
 export const getExpensesByCategory = async (userId) => {
   try {
-    const result = await pool.query(
+    const { rows } = await pool.query(
       `
       SELECT category, SUM(amount)::numeric(10,2) AS amount
       FROM expenses
@@ -32,9 +72,27 @@ export const getExpensesByCategory = async (userId) => {
       `,
       [userId]
     );
-    return result.rows;
+    return rows;
   } catch (error) {
     throw new DatabaseError(error, 'Error grouping expenses by category');
+  }
+};
+
+export const getIncomesBySource = async (userId) => {
+  try {
+    const { rows } = await pool.query(
+      `
+      SELECT source, SUM(amount)::numeric(10,2) AS amount
+      FROM incomes
+      WHERE user_id = $1
+      GROUP BY source
+      ORDER BY amount DESC
+      `,
+      [userId]
+    );
+    return rows;
+  } catch (error) {
+    throw new DatabaseError(error, 'Error grouping incomes by source');
   }
 };
 

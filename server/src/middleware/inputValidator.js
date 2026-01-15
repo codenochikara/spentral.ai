@@ -59,3 +59,33 @@ export const validateLoginSchema = (req, res, next) => {
   }
   next();
 }
+
+const createIncomeSchema = Joi.object({
+  amount: Joi.number().positive().min(0.01).required(),
+  source: Joi.string().trim().max(50).required(),
+  description: Joi.string().trim().max(255),
+  notes: Joi.string().trim().max(255).optional()
+});
+
+export const validateCreateIncome = (req, res, next) => {
+  const { error } = createIncomeSchema.validate(req.body);
+  if (error) {
+    throw new ValidationError(error);
+  }
+  next();
+};
+
+const updateIncomeSchema = Joi.object({
+  amount: Joi.number().positive().min(0.01),
+  source: Joi.string().trim().max(50),
+  description: Joi.string().trim().max(255),
+  notes: Joi.string().trim().max(255).optional()
+}).min(1);
+
+export const validateUpdateIncome = (req, res, next) => {
+  const { error } = updateIncomeSchema.validate(req.body);
+  if (error) {
+    throw new ValidationError(error);
+  }
+  next();
+};

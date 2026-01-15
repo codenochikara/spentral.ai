@@ -1,4 +1,4 @@
-export default function StatCard(title, value = '—') {
+export default function StatCard(title) {
   const card = document.createElement('div');
   card.className = 'stat-card card';
 
@@ -6,22 +6,14 @@ export default function StatCard(title, value = '—') {
   titleEl.className = 'stat-title';
   titleEl.textContent = title;
 
-  const valueEl = document.createElement('strong');
+  const valueEl = document.createElement('div');
   valueEl.className = 'stat-value';
-  valueEl.textContent = value;
+  valueEl.innerHTML = `<div class="skeleton skeleton-text" style="height:1.6rem;width:60%"></div>`;
 
   card.append(titleEl, valueEl);
 
-  card.update = (newValue) => {
-    valueEl.textContent = newValue;
-  };
-
-  card.setLoading = (isLoading) => {
-    if (isLoading) {
-      valueEl.innerHTML = `<div class="skeleton skeleton-text" style="width: 60%; height:1.5rem;"></div>`;
-    } else {
-      valueEl.textContent = valueEl.textContent || '—';
-    }
+  card.update = (value) => {
+    valueEl.textContent = value;
   };
 
   return card;

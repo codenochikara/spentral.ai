@@ -5,6 +5,7 @@ import express from 'express';
 import corsOptions from './config/corsOptions.js';
 import connectPostgreSQL from './config/PostgreSQLConnection.js';
 import createExpensesTable from './data/operations/createExpensesTable.js';
+import createIncomesTable from './data/operations/createIncomesTable.js';
 import createUsersTable from './data/operations/createUsersTable.js';
 import credentials from './middleware/credentials.js';
 import errorHandler from './middleware/errorHandler.js';
@@ -36,6 +37,7 @@ app.use('/api/users', (await import('./routes/api/usersRouter.js')).default);
 app.use(verifyJwt); // JWT verification middleware for protected routes
 app.use('/api/dashboard', (await import('./routes/api/dashboardRouter.js')).default);
 app.use('/api/expenses', (await import('./routes/api/expensesRouter.js')).default);
+app.use('/api/incomes', (await import('./routes/api/incomesRouter.js')).default);
 
 // Test PostgreSQL Connection Route
 /* app.use('/api/test-pg', async (req, res) => {
@@ -51,6 +53,7 @@ app.use(errorHandler);
 (async () => {
   await createUsersTable();
   await createExpensesTable();
+  await createIncomesTable();
 })();
 
 app.listen(PORT, () => {
