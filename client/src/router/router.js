@@ -6,7 +6,10 @@ const routes = {
   "/": Login,
   "/login": Login,
   "/signup": Signup,
-  "/dashboard": Dashboard
+  "/dashboard": Dashboard,
+  "/expenses": Dashboard,
+  "/incomes": Dashboard,
+  "/profile": Dashboard
 };
 
 export function initRouter() {

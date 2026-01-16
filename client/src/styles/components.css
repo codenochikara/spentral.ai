@@ -1,8 +1,10 @@
 /* ========== BUTTON ========== */
 .btn {
   position: relative;
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 
   padding: 0.6rem 1rem;
   max-height: 40px;

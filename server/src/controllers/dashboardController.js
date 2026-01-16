@@ -23,7 +23,7 @@ export const getDashboardSummary = async (req, res, next) => {
 
 export const getRecentTransactions = async (req, res, next) => {
   const userId = req.user.userId;
-  const { limit = 5 } = req.query;
+  const { limit = 10 } = req.query;
 
   try {
     const transactions = await processRecentTransactions(userId, limit);

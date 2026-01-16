@@ -4,7 +4,7 @@ export const processDashboardSummary = async (userId) => {
   const summary = await dashboardRepository.getDashboardSummary(userId);
 
   return {
-    balance: summary.total_income - summary.total_expenses,
+    balance: Number((summary.total_income - summary.total_expenses).toFixed(2)),
     totalIncome: summary.total_income,
     totalExpenses: summary.total_expenses,
     expenseCount: summary.expense_count,

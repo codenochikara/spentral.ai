@@ -117,13 +117,13 @@ export const getSpendingTrend = async (userId, range) => {
 
   const query = `
     SELECT
-      DATE_TRUNC('${truncUnit}', created_at) AS trunc_date,
+      DATE_TRUNC('${truncUnit}', created_at) AS date,
       SUM(amount)::numeric(10,2) AS amount
     FROM expenses
     WHERE user_id = $1
       AND created_at >= NOW() - INTERVAL '${interval}'
-    GROUP BY trunc_date
-    ORDER BY trunc_date ASC
+    GROUP BY date
+    ORDER BY date ASC
   `;
 
   try {

@@ -1,5 +1,6 @@
 /* ================== SIDEBAR ================== */
 .sidebar {
+  height: 100vh;
   width: 240px;
   background: var(--card-bg);
   border-right: 1px solid var(--border);
@@ -15,32 +16,67 @@
 
 .sidebar-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
   padding: 1rem;
   font-weight: 600;
+
+  svg {
+    color: var(--primary);
+  }
 }
 
 .sidebar-nav {
+  list-style: none;
+  margin: 0;
+  padding: 0.75rem;
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
-  padding: 1rem;
+}
+
+.sidebar-nav li {
+  width: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .sidebar-nav a {
-  padding: 0.6rem 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  padding: 0.65rem 0.75rem;
   border-radius: var(--radius-md);
-  cursor: pointer;
+
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+
   color: var(--fg);
-  transition: var(--transition);
+  transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
 }
 
 .sidebar-nav a:hover {
   background: var(--muted-bg);
+  transform: translateX(2px);
+}
+
+.sidebar-nav a.active {
+  background: rgba(59, 130, 246, 0.12);
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.sidebar-nav a.active svg {
+  color: var(--primary);
 }
 
 .sidebar-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-top: auto;
   padding: 1rem;
 }
@@ -50,12 +86,15 @@
   display: flex;
   min-height: 100vh;
   background: var(--bg);
+  overflow: hidden;
 }
 
 .dashboard-main {
   flex: 1;
+  height: 100vh;
   padding: 1.5rem;
   overflow-y: auto;
+  overscroll-behavior: contain;
   transition: var(--transition);
 }
 
@@ -136,6 +175,13 @@
   gap: 0.5rem;
 }
 
+.transactions-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
 .transaction-item {
   display: flex;
   justify-content: space-between;
@@ -182,9 +228,10 @@
   line-height: 1.2;
 }
 
-.tx-category {
+.tx-label {
   font-size: 0.9rem;
   font-weight: 500;
+  text-transform: capitalize;
 }
 
 .tx-date {
