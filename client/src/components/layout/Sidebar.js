@@ -24,23 +24,54 @@ export default function Sidebar() {
     </nav>
 
     <div class="sidebar-footer">
-      <button class="btn btn-primary" id="logout-btn">
+      <div class="theme-switch" title="Toggle theme">
+        <i class="theme-icon sun">${sunIcon}</i>
+        <label class="switch">
+          <input type="checkbox" id="theme-toggle">
+          <span class="slider"></span>
+        </label>
+        <i class="theme-icon moon">${moonIcon}</i>
+      </div>
+
+      <button class="btn icon-btn" id="logout-btn" title="Logout">
         ${logoutIcon}
-        <span>Logout</span>
       </button>
 
-      <button class="btn collapse-btn" title="Collapse sidebar">
+      <button class="btn icon-btn collapse-btn" title="${sidebar.classList.contains('collapsed') ? 'Expand sidebar' : 'Collapse sidebar (Ctrl+B)'}">
         ${collapseIcon}
       </button>
     </div>
   `;
 
-  /* ---------- Collapse ---------- */
-  sidebar.querySelector('.collapse-btn').onclick = () => {
-    sidebar.classList.toggle('collapsed');
+  /* ---------------- Theme logic ---------------- */
+  const root = document.documentElement;
+  const toggle = sidebar.querySelector('#theme-toggle');
+
+  const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
+    ? 'dark'
+    : 'light';
+
+  const savedTheme = localStorage.getItem('theme') || 'system';
+  applyTheme(savedTheme);
+
+  toggle.checked = root.dataset.theme === 'dark';
+
+  toggle.onchange = () => {
+    const theme = toggle.checked ? 'dark' : 'light';
+    localStorage.setItem('theme', theme);
+    applyTheme(theme);
   };
 
-  /* ---------- Navigation ---------- */
+  function applyTheme(mode) {
+    if (mode === 'system') {
+      root.dataset.theme = systemTheme;
+    } else {
+      root.dataset.theme = mode;
+    }
+    toggle.checked = root.dataset.theme === 'dark';
+  }
+
+  /* ---------------- Navigation ---------------- */
   const links = sidebar.querySelectorAll('[data-route]');
   links.forEach(link => {
     link.onclick = () => {
@@ -49,7 +80,30 @@ export default function Sidebar() {
     };
   });
 
-  /* ---------- Logout ---------- */
+  function setActive(route) {
+    links.forEach(link => {
+      link.classList.toggle('active', link.dataset.route === route);
+    });
+  }
+  setActive(window.location.pathname);
+
+  /* ---------------- Collapse ---------------- */
+  const collapseBtn = sidebar.querySelector('.collapse-btn');
+  collapseBtn.onclick = toggleCollapse;
+
+  function toggleCollapse() {
+    sidebar.classList.toggle('collapsed');
+  }
+
+  /* Keyboard shortcut: Ctrl + B */
+  document.addEventListener('keydown', e => {
+    if (e.ctrlKey && e.key.toLowerCase() === 'b') {
+      e.preventDefault();
+      toggleCollapse();
+    }
+  });
+
+  /* ---------------- Logout ---------------- */
   sidebar.querySelector('#logout-btn').onclick = async () => {
     try {
       await api.post('/auth/logout');
@@ -57,15 +111,6 @@ export default function Sidebar() {
       navigate('/login');
     }
   };
-
-  /* ---------- Active route on load ---------- */
-  setActive(window.location.pathname);
-
-  function setActive(route) {
-    links.forEach(link => {
-      link.classList.toggle('active', link.dataset.route === route);
-    });
-  }
 
   return sidebar;
 }
@@ -75,9 +120,9 @@ export default function Sidebar() {
 function navItem(route, label, icon) {
   return `
     <li>
-      <a data-route="${route}">
+      <a data-route="${route}" title="${label}">
         ${icon}
-        <span>${label}</span>
+        <span class="nav-label">${label}</span>
       </a>
     </li>
   `;
@@ -95,9 +140,17 @@ const dashboardIcon = `
   </g>
 </svg>`;
 
-const expenseIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><!-- Icon from Lucide by Lucide Contributors - https://github.com/lucide-icons/lucide/blob/main/LICENSE --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M16 17h6v-6"/><path d="m22 17l-8.5-8.5l-5 5L2 7"/></g></svg>`;
+const expenseIcon = `
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+  <path fill="none" stroke="currentColor" stroke-width="2"
+    d="M16 17h6v-6m0 6l-8.5-8.5l-5 5L2 7"/>
+</svg>`;
 
-const incomeIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><!-- Icon from Lucide by Lucide Contributors - https://github.com/lucide-icons/lucide/blob/main/LICENSE --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M16 7h6v6"/><path d="m22 7l-8.5 8.5l-5-5L2 17"/></g></svg>`;
+const incomeIcon = `
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+  <path fill="none" stroke="currentColor" stroke-width="2"
+    d="M16 7h6v6m0-6l-8.5 8.5l-5-5L2 17"/>
+</svg>`;
 
 const profileIcon = `
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
@@ -116,3 +169,7 @@ const collapseIcon = `
   <path fill="none" stroke="currentColor" stroke-width="2"
     d="m9 6l-6 6l6 6m-6-6h14m4 7V5"/>
 </svg>`;
+
+const sunIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><!-- Icon from Lucide by Lucide Contributors - https://github.com/lucide-icons/lucide/blob/main/LICENSE --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></g></svg>`;
+
+const moonIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><!-- Icon from Lucide by Lucide Contributors - https://github.com/lucide-icons/lucide/blob/main/LICENSE --><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg>`;

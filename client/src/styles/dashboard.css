@@ -75,10 +75,131 @@
 
 .sidebar-footer {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.5rem;
   margin-top: auto;
   padding: 1rem;
+}
+
+/* ================== COLLAPSED SIDEBAR ================== */
+.sidebar.collapsed .logo-text,
+.sidebar.collapsed .nav-label {
+  display: none;
+}
+
+.sidebar.collapsed .sidebar-header {
+  justify-content: center;
+}
+
+.sidebar.collapsed .sidebar-nav a {
+  justify-content: center;
+}
+
+.sidebar.collapsed .sidebar-footer {
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.sidebar.collapsed .theme-switch {
+  flex-direction: column;
+}
+
+/* ================== ICON BUTTONS ================== */
+.icon-btn {
+  padding: 0.5rem;
+  border-radius: var(--radius-md);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--fg);
+}
+
+.icon-btn:hover {
+  background: var(--muted-bg);
+}
+
+/* ================== THEME TOGGLE ================== */
+.theme-switch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.theme-icon {
+  display: flex;
+  color: var(--muted-text);
+}
+
+.switch {
+  position: relative;
+  width: 38px;
+  height: 20px;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  background: color-mix(in srgb, var(--fg) 12%, transparent);
+}
+
+html[data-theme="dark"] .slider {
+  background: color-mix(in srgb, var(--fg) 18%, transparent);
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  top: 3px;
+  background: var(--card-bg);
+  border-radius: 50%;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease;
+}
+
+.switch input:checked+.slider::before {
+  transform: translateX(18px);
+}
+
+/* ================== COLLAPSE ICON ROTATION ================== */
+.collapse-btn svg {
+  transition: transform 0.25s ease;
+}
+
+.sidebar.collapsed .collapse-btn svg {
+  transform: rotate(180deg);
+}
+
+/* ================== TOOLTIP (collapsed) ================== */
+.sidebar.collapsed [title] {
+  position: relative;
+}
+
+.sidebar.collapsed [title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  left: 110%;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--card-bg);
+  color: var(--fg);
+  padding: 0.35rem 0.5rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  white-space: nowrap;
+  box-shadow: var(--shadow-sm);
+  z-index: 99;
 }
 
 /* ================== DASHBOARD LAYOUT ================== */
@@ -128,6 +249,48 @@
   color: var(--fg);
 }
 
+/* ================== STAT CARD HORIZONTAL ================== */
+
+.stat-card-horizontal {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.stat-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--primary) 12%, transparent);
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+.stat-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.stat-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.stat-title {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--muted-text);
+}
+
+.stat-value {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--fg);
+}
+
 /* ================== CHARTS ================== */
 .chart-card {
   grid-column: span 6;
@@ -153,6 +316,10 @@
   background: linear-gradient(135deg, var(--muted-bg), var(--card-bg));
   opacity: 0.7;
   transition: var(--transition);
+
+  canvas {
+    margin: 2rem;
+  }
 }
 
 /* ================== TRANSACTIONS ================== */
@@ -225,6 +392,7 @@
 .tx-meta {
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
   line-height: 1.2;
 }
 
@@ -250,6 +418,35 @@
 
 .tx-amount.expense {
   color: var(--danger);
+}
+
+.tx-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tx-actions {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  color: var(--muted-text);
+}
+
+.icon-btn:hover {
+  color: var(--danger);
+}
+
+.tx-desc,
+.tx-notes {
+  font-size: 0.75rem;
+  color: var(--muted-text);
 }
 
 /* ================== RESPONSIVE ================== */

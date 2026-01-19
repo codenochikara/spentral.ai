@@ -33,7 +33,9 @@ button {
 }
 
 input,
-button {
+button,
+textarea {
+  font-family: inherit;
   outline: none;
 }
 

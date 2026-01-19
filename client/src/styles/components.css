@@ -72,6 +72,20 @@ input:focus {
   border-color: var(--primary);
 }
 
+/* ========== TEXTAREA ========== */
+textarea {
+  padding: 0.7rem 0.8rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--fg);
+  transition: var(--transition);
+}
+
+textarea:focus {
+  border-color: var(--primary);
+}
+
 /* ========== CARD ========== */
 .card {
   background: var(--card-bg);
