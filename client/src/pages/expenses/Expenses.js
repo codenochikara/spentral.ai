@@ -92,21 +92,32 @@ export default function Expenses() {
     const grouped = {};
 
     data.forEach(e => {
-      const key = new Date(e.created_at).toLocaleDateString('en-IN', {
-        day: '2-digit',
-        month: 'short'
-      });
+      const d = new Date(e.created_at);
+
+      // LOCAL date key (no UTC shift)
+      const key = [
+        d.getFullYear(),
+        String(d.getMonth() + 1).padStart(2, '0'),
+        String(d.getDate()).padStart(2, '0')
+      ].join('-'); // YYYY-MM-DD
 
       grouped[key] = (grouped[key] || 0) + Number(e.amount);
     });
 
-    const sortedKeys = Object.keys(grouped).sort(
+    // Proper chronological sorting
+    const sortedDates = Object.keys(grouped).sort(
       (a, b) => new Date(a) - new Date(b)
     );
 
     expenseTrendChart.render({
-      labels: sortedKeys,
-      data: sortedKeys.map(k => grouped[k])
+      labels: sortedDates.map(date =>
+        new Date(date).toLocaleDateString('en-IN', {
+          day: '2-digit',
+          month: 'short',
+          year: 'numeric'
+        })
+      ),
+      data: sortedDates.map(date => grouped[date])
     });
   }
 
