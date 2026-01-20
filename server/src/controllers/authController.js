@@ -53,17 +53,24 @@ export const refreshJwt = async (req, res, next) => {
 
 export const handleLogout = async (req, res, next) => {
   try {
+    const accessToken = req.cookies?.accessToken;
     const refreshToken = req.cookies?.refreshToken;
 
     // Always clear cookie (idempotent)
+    res.clearCookie('accessToken', {
+      httpOnly: true,
+      sameSite: 'Lax',
+      // secure: true
+    });
+
     res.clearCookie('refreshToken', {
       httpOnly: true,
       sameSite: 'Lax',
       // secure: true
     });
 
-    // No refresh token → no content
-    if (!refreshToken) {
+    // No access token and no refresh token → no content
+    if (!accessToken && !refreshToken) {
       return res.sendStatus(204);
     }
 

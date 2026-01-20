@@ -70,9 +70,15 @@ export default function Login() {
 
     <!-- Right Column: Illustration / Branding -->
     <div class="auth-right">
-      
+      <div class="auth-hero">
+        <div class="hero-surface">
+          <div class="data-card card expense">Expenses</div>
+          <div class="data-card card income">Income</div>
+          <div class="data-card card insights">AI Insights</div>
+          <div class="data-card card trends">Daily and Monthly Trends</div>
+        </div>
+      </div>
     </div>
-
   </div>
   `;
 
@@ -112,6 +118,7 @@ export default function Login() {
 
     try {
       const res = await loginUser({ identifier, password });
+      window.localStorage.setItem("spentralUser", res.data.data?.username);
       navigate("/dashboard");
     } catch (err) {
       showToast(err.response?.data?.message || "Login failed");

@@ -7,11 +7,11 @@ export default function Sidebar() {
 
   sidebar.innerHTML = `
     <div class="sidebar-header">
-      <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
+      <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
         <path fill="none" stroke="currentColor" stroke-width="2"
           d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"/>
       </svg>
-      <span class="logo-text">Spentral.ai</span>
+      <h2 class="logo-text">Spentral.ai</h2>
     </div>
 
     <nav class="sidebar-nav">
@@ -19,7 +19,7 @@ export default function Sidebar() {
         ${navItem('/dashboard', 'Dashboard', dashboardIcon)}
         ${navItem('/expenses', 'Expenses', expenseIcon)}
         ${navItem('/incomes', 'Incomes', incomeIcon)}
-        ${navItem('/profile', 'Profile', profileIcon)}
+        ${navItem('/profile', `${window.localStorage.getItem("spentralUser")}`, profileIcon)}
       </ul>
     </nav>
 
@@ -152,11 +152,7 @@ const incomeIcon = `
     d="M16 7h6v6m0-6l-8.5 8.5l-5-5L2 17"/>
 </svg>`;
 
-const profileIcon = `
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
-  <path fill="none" stroke="currentColor" stroke-width="2"
-    d="M12 12a5 5 0 1 0-5-5a5 5 0 0 0 5 5Zm7 9a7 7 0 0 0-14 0"/>
-</svg>`;
+const profileIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><!-- Icon from Lucide by Lucide Contributors - https://github.com/lucide-icons/lucide/blob/main/LICENSE --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></g></svg>`;
 
 const logoutIcon = `
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">

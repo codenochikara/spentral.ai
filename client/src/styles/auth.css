@@ -143,3 +143,67 @@
     height: 200px;
   }
 }
+
+.auth-hero {
+  position: relative;
+  height: 100vh;
+  width: 50vw;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--bg), var(--card-bg));
+  border-left: 1px solid var(--border);
+}
+
+.hero-surface {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.data-card {
+  position: absolute;
+  padding: 0.75rem 1rem;
+  font-size: 0.85rem;
+  border-radius: var(--radius-md);
+  opacity: 0.85;
+  backdrop-filter: blur(6px);
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Individual placements */
+.data-card.expense {
+  top: 20%;
+  left: 15%;
+  animation-delay: 0s;
+}
+
+.data-card.income {
+  top: 55%;
+  left: 25%;
+  animation-delay: 1s;
+}
+
+.data-card.insights {
+  top: 35%;
+  right: 20%;
+  animation-delay: 0.5s;
+}
+
+.data-card.trends {
+  bottom: 20%;
+  right: 30%;
+  animation-delay: 1.5s;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}

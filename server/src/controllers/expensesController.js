@@ -7,7 +7,7 @@ const createExpense = async (req, res, next) => {
 
   try {
     const expense = await processCreateExpense(userId, amount, category, description, notes);
-    res.status(201).json(responseDTO(res, 201, 'Expense created successfully.', expense));
+    responseDTO(res, 201, 'Expense created successfully.', expense);
   } catch (error) {
     next(error);
   }
@@ -19,7 +19,7 @@ const getExpensesByUserId = async (req, res, next) => {
 
   try {
     const expenses = await processGetExpensesByUserId(userId, limit);
-    res.status(200).json(responseDTO(res, 200, 'Expenses fetched successfully.', expenses));
+    responseDTO(res, 200, 'Expenses fetched successfully.', expenses);
   } catch (error) {
     next(error);
   }
@@ -31,7 +31,7 @@ const updateExpenseById = async (req, res, next) => {
 
   try {
     const expense = await processUpdateExpenseById(id, amount, category, description, notes);
-    res.status(200).json(responseDTO(res, 200, 'Expense updated successfully.', expense));
+    responseDTO(res, 200, 'Expense updated successfully.', expense);
   } catch (error) {
     next(error);
   }
@@ -42,7 +42,7 @@ const deleteExpenseById = async (req, res, next) => {
 
   try {
     await processDeleteExpenseById(id);
-    res.status(204).send();
+    responseDTO(res, 204);
   } catch (error) {
     next(error);
   }

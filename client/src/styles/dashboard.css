@@ -18,7 +18,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 1rem;
   padding: 1rem;
   font-weight: 600;
 
@@ -217,6 +217,14 @@ html[data-theme="dark"] .slider {
   overflow-y: auto;
   overscroll-behavior: contain;
   transition: var(--transition);
+
+  h2 {
+    margin-bottom: 1rem;
+
+    span.greeting-username {
+      color: var(--primary);
+    }
+  }
 }
 
 .dashboard-grid {
@@ -289,6 +297,36 @@ html[data-theme="dark"] .slider {
   font-size: 1.6rem;
   font-weight: 600;
   color: var(--fg);
+}
+
+/* ================== AI INSIGHTS CARD ================== */
+
+.ai-insight-card {
+  grid-column: span 6;
+  padding: 1rem;
+}
+
+.ai-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.ai-content {
+  font-size: 0.85rem;
+  color: var(--fg);
+}
+
+.ai-list {
+  padding-left: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.ai-list li {
+  line-height: 1.4;
 }
 
 /* ================== CHARTS ================== */

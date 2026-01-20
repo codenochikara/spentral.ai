@@ -75,8 +75,16 @@ export default function Signup() {
       </div>
     </div>
 
-    <!-- Right Column: Illustration -->
-    <div class="auth-right">
+    <!-- Right Column: Illustration / Branding -->
+    <div class="auth-right no-noise-overlay">
+      <div class="auth-hero">
+        <div class="hero-surface">
+          <div class="data-card card expense">Expenses</div>
+          <div class="data-card card income">Income</div>
+          <div class="data-card card insights">AI Insights</div>
+          <div class="data-card card trends">Daily and Monthly Trends</div>
+        </div>
+      </div>
     </div>
   `;
 

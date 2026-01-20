@@ -38,6 +38,7 @@ app.use(verifyJwt); // JWT verification middleware for protected routes
 app.use('/api/dashboard', (await import('./routes/api/dashboardRouter.js')).default);
 app.use('/api/expenses', (await import('./routes/api/expensesRouter.js')).default);
 app.use('/api/incomes', (await import('./routes/api/incomesRouter.js')).default);
+app.use('/ai-insights', (await import('./routes/aiInsightsRouter.js')).default);
 
 // Test PostgreSQL Connection Route
 /* app.use('/api/test-pg', async (req, res) => {
